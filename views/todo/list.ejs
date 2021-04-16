@@ -3,7 +3,12 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
-      <p>Listing todo</p>
+      <h1>Latest Todos</h1>
+      <ul>
+      <% for (var i=0; i<todos.length; i++) { %>
+        <li><%= todos[i].message %> - <%= todos[i].createdAt %></li>
+      <% } %>
+      </ul>
     </div>
   </div>
 </div>

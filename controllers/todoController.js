@@ -1,3 +1,6 @@
+const { TodoModel } = require('../db/sequelize');
+
 exports.list = async function (req, res){
-  res.render("todo/list");
+  const todos = await TodoModel.findAll();
+  res.render("todo/list", {todos: todos});
 }
