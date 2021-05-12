@@ -11,26 +11,21 @@
         <button>Add Task</button>
 
         <h2>Added Task</h2>
+
+        <ul class="list-group">
         <% for( var i = 0; i < todos.length; i++){ %>
-        
-        <ul>
-          <li>
-            <span  value="<%= todos[i].message %>" /><%=
-            todos[i].message %> <%= todos[i].state %> <%= todos[i].createdAt %> <%= todos[i].updated %>
+          <li class="list-group-item">
+            <%= todos[i].message %> <%= todos[i].state %> <%= todos[i].createdAt %> <%= todos[i].updated %>
+            <i class="fa fa-trash"></i> <button class="button button1" formaction="/checktask" type="submit">Check
+            </button>
+            <button
+              class="button button2"
+              formaction="/delete/todo/<%= todos[i].id %>"
+              type="submit"
+            >Delete</button>
           </li>
-          <i class="fa fa-trash"></i> <button class="button button1" formaction="/checktask" type="submit">Check
-          </button>
-          <button
-            class="button button2"
-            formaction="/delete/todo/<%= todos[i].id %>"
-            type="submit"
-          >
-            Delete
-          </button>
-         
-        </ul>
-        
         <% } %>
+        </ul>
       </form>      
     </div>
     <div class="col-lg-8 col-md-10 mx-auto">
