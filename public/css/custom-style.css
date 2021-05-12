@@ -2,10 +2,6 @@
   font-weight: bold;
 }
 
-* {
-  font-family: “Product Sans”;
-}
-
 .font-300 {
   font-weight: 200;
 }
@@ -17,55 +13,4 @@
 .submit-delete {
   border: 0;
   background: none;
-}
-
-body {
-  background: #e0ebd3;
-  color: #333333;
-  margin-top: 20px;
-}
-
-.container {
-  width: 110%;
-  margin: 0 auto;
-}
-
-ul {
-  column-width: 10em;
-  column-rule: 1px;
-}
-
-button {
-  background-color: #03a9f4;
-  color: white;
-}
-
-button:hover {
-  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
-    0 17px 50px 0 rgba(0, 0, 0, 0.19);
-}
-
-h2 {
-  /* color: #3c1b66; */
-  font-weight: normal;
-  font-size: 30px;
-  font-family: Arial;
-  text-transform: uppercase;
-}
-h1 {
-  /* color: #6c2eb9; */
-  font-weight: normal;
-  font-size: 40px;
-  font-family: Arial;
-  text-transform: uppercase;
-}
-
-.button1 {
-  width: 40px;
-  background-color: rgb(0, 255, 55);
-}
-
-.button2 {
-  width: 40px;
-  background-color: red;
 }

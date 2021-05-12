@@ -1,6 +1,6 @@
-const DATABASE_NAME = 'db_todo';//'todo_express';
+const DATABASE_NAME = 'todo_express';//'todo_express';
 const USERNAME = 'root';
-const PASSWORD = 'root';
+const PASSWORD = '';
 const HOST = 'localhost';
 const DIALECT = 'mysql';
 
