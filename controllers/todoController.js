@@ -20,17 +20,18 @@ exports.add = (req, res) => {
     return;
   }
   id = Math.floor((Math.random() * 100) + 1);
-  status = 'OPEN'
+  state = "OPEN";
   // Create a task
   const todo = {
     id,
     message: req.body.message,
-    status
+    state
   };
 
   // Save task in the database
   TodoModel.create(todo)
     .then(data => {
+      console.log('dataaaa',data)
       res.send(data);
     })
     .catch(err => {
@@ -82,14 +83,41 @@ exports.delete = (req, res) => {
    res.redirect("/todos");
 };
 
+exports.update= (req, res) => {
+  const id = req.params.id;
+  
+  state = "OPEN";
+  
+  const todo = {
+    id,
+    message: req.body.message,
+    state
+  };
+  TodoModel.update(req.body, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Task was updated successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot update Task with id=${id}. Maybe Task was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Tutorial with id=" + id
+      });
+    });
+};
 
 
 
 
-
-
-
-/*exports.markCompleted = function(req, res, next) {
+exports.markCompleted = function(req, res, next) {
   if (!req.body.completed) return next(new Error('Param is missing.'));
   var completed = req.body.completed === 'true';
   req.db.tasks.updateById(req.task._id, {$set: {completeTime: completed ? new Date() : null, completed: completed}}, function(error, count) {
@@ -100,7 +128,7 @@ exports.delete = (req, res) => {
   })
 };
 
-exports.completed = function(req, res, next) {
+/*exports.completed = function(req, res, next) {
   req.db.tasks.find({completed: true}).toArray(function(error, tasks) {
     res.render('tasks_completed', {
       title: 'Completed',
