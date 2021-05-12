@@ -16,5 +16,14 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.get('/', homeController.home);
 app.get('/about', homeController.about);
 app.get('/todos', todoController.list);
+app.post('/todos', todoController.add);
 
+//app.post('/todos/:task_id', todoController.findOne);
+app.post('/delete/todo/:id', todoController.delete);
+/*app.get('/todos/completed', todoController.completed);*/
+
+
+app.use(express.static("public"));
 app.listen(3000);
+
+

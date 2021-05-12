@@ -6,5 +6,6 @@ module.exports = (sequelize, type) => {
           autoIncrement: true
       },
       message: type.STRING,
+      state: type.STRING
   })
 }

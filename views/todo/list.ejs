@@ -4,12 +4,70 @@
   <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
       <h1>Latest Todos</h1>
-      <ul>
-      <% for (var i=0; i<todos.length; i++) { %>
-        <li><%= todos[i].message %> - <%= todos[i].createdAt %></li>
-      <% } %>
-      </ul>
+      <form action="/todos" method="POST">
+        <input type="text" name="message" placeholder="add new task" />
+        <button>Add Task</button>
+
+        <h2>Added Task</h2>
+        <% for( var i = 0; i < todos.length; i++){ %>
+        
+        <ul>
+          <li>
+            <span  value="<%= todos[i].message %>" /><%=
+            todos[i].message %> <%= todos[i].state %> <%= todos[i].createdAt %> <%= todos[i].updated %>
+          </li>
+          <button class="button button1" formaction="/checktask" type="submit">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 0 24 24"
+              width="24px"
+              fill="#000000"
+            >
+              <path d="M0 0h24v24H0V0z" fill="none" />
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"
+              />
+            </svg>
+          </button>
+          <button
+            class="button button2"
+            formaction="/delete/todo/<%= todos[i].id %>"
+            type="submit"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="18px"
+              viewBox="0 0 24 24"
+              width="18px"
+              fill="#FFFFFF"
+            >
+              <path d="M0 0h24v24H0V0z" fill="none" />
+              <path
+                d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"
+              />
+            </svg>
+          </button>
+          <button
+            class="button button3"            
+            type="submit"      
+            >
+          <!-- function addimage() {<img src="https://okdiario.com/img/2016/12/29/jirafas-curiosidades-animal-b-655x368.jpg" height="50" width="100">} -->
+            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+              <g><rect fill="none" height="24" width="24"/></g>
+              <g><path d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M7,9l1.41,1.41L11,7.83V16h2V7.83l2.59,2.58L17,9l-5-5L7,9z"/>
+              </g>
+            </svg>
+          </button>
+        </ul>
+        
+        <% } %>
+      </form>
+      
     </div>
+    <div class="col-lg-8 col-md-10 mx-auto">
+    <h2>Completed task</h2></div>
+    <!-- <img src="https://okdiario.com/img/2016/12/29/jirafas-curiosidades-animal-b-655x368.jpg" /> -->
   </div>
 </div>
 
