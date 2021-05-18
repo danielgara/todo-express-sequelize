@@ -1,74 +1,89 @@
 <%- include("../layouts/header"); -%>
 
-  <div class="container">
+<div class="container">
+  <div class="card">
     <div class="col-lg-8 col-md-10 mx-auto">
-      <h1>Latest Todos</h1>
-      <form action="/todos" method="post" enctype="multipart/form-data">
-        <input type="file" name="filetoupload" placeholder="add the image url" />
-        <div class="form-group mx-sm-3 mb-2"></div>
-        <input type="text" name="message" placeholder="add new task" />
-        <button type="submit">Add Task</button>
-        <button><i class="fas fa-sort-alpha-down"></i></button>
+      <div class="card-header">
+        <h1>Latest Todos</h1>
+        <div class="card-body">
+          <form action="/todos" method="post" enctype="multipart/form-data">
+            <div class="form-group mx-sm-3 mb-2">
+              <input
+                type="file"
+                name="filetoupload"
+                placeholder="add the image url"
+                accept="image/*"
+              />
+              <input type="text" name="message" placeholder="add new task" />
+              <button class="btn btn-primary btn-sm" type="submit">
+                Add Task
+              </button>
+              <button onclick="sortAscending()">
+                <i class="fas fa-sort-alpha-down"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <form action="/todos" method="post">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <h2>Added Task</h2>
+          <div class="form-group mx-sm-3 mb-2"></div>
+          <ul class="list-group">
+            <% for( var i=0; i < todos.length; i++){ %> <%if
+            (todos[i].state==='OPEN' ) {%>
+            <li class="list-group-item">
+              <%= todos[i].message %> <%= todos[i].state %> <%=
+              todos[i].createdAt %> <%= todos[i].updated %> <%= todos[i].id %>
+              <%if (todos[i].image ) {%>
+              <img src="/img/<%= todos[i].image%>" class="img-thumbnail" />
+              <%}%>
+              <button
+                class="button button1"
+                formaction="/todo/update/<%= todos[i].id %>/<%= 'CLOSE' %>"
+                type="submit"
+              >
+                <i class="fas fa-check-circle"></i>
+              </button>
+              <button
+                class="button button2"
+                formaction="/delete/todo/<%= todos[i].id %>/<%= todos[i].image %>"
+                type="submit"
+              >
+                <i class="fa fa-trash"></i>
+              </button>
+              <%}%>
+            </li>
+            <% } %>
+          </ul>
+        </div>
       </form>
     </div>
-    <form action="/todos" method="post">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <h2>Added Task</h2>
-        <div class="form-group mx-sm-3 mb-2"></div>
+    <div class="col-lg-8 col-md-10 mx-auto">
+      <form action="/todos" method="POST">
+        <h2>Completed task</h2>
         <ul class="list-group">
-          <% for( var i=0; i < todos.length; i++){ %>
+          <% for( var i=0; i < todos.length; i++){ %> <%if
+          (todos[i].state==='CLOSE' ) {%>
+          <li class="list-group-item">
+            <%= todos[i].message %> <%= todos[i].state %> <%= todos[i].createdAt
+            %> <%= todos[i].updated %> <%= todos[i].id %>
 
-            <%if (todos[i].state==='OPEN' ) {%>
-              <li class="list-group-item">
-                <%= todos[i].message %>
-                  <%= todos[i].state %>
-                    <%= todos[i].createdAt %>
-                      <%= todos[i].updated %>
-                        <%= todos[i].id %>                        
-                        <img src="<%= todos[i].image%>">
-                          <button class="button button1" formaction="/todo/update/<%= todos[i].id %>/<%= 'CLOSE' %>"
-                            type="submit">
-                            <i class="fas fa-check-circle"></i>
-                          </button>
-                          <button class="button button2" formaction="/delete/todo/<%= todos[i].id %>" type="submit">
-                            <i class="fa fa-trash"></i>
-                          </button>
-
-                          <%}%>
-              </li>
-              <% } %>
+            <button
+              class="button button1"
+              formaction="/todo/update/<%= todos[i].id %>/<%= 'OPEN' %>"
+              type="submit"
+            >
+              <i class="fas fa-trash-restore"></i>
+            </button>
+          </li>
+          <%}%> <% } %>
         </ul>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-  <div class="col-lg-8 col-md-10 mx-auto">
-    <form action="/todos" method="POST">
-      <h2>Completed task</h2>
-      <ul class="list-group">
-        <% for( var i=0; i < todos.length; i++){ %>
+</div>
 
-          <%if (todos[i].state==='CLOSE' ) {%>
-            <li class="list-group-item">
-              <%= todos[i].message %>
-                <%= todos[i].state %>
-                  <%= todos[i].createdAt %>
-                    <%= todos[i].updated %>
-                      <%= todos[i].id %>
-
-                        <button class="button button1" formaction="/todo/update/<%= todos[i].id %>/<%= 'OPEN' %>"
-                          type="submit">
-                          <i class="fas fa-trash-restore"></i>
-                        </button>
-            </li>
-            <%}%>
-
-              <% } %>
-
-      </ul>
-    </form>
-  </div>
-  </div>
-  
-  </div>
-
-  <%- include("../layouts/footer"); -%>
+<%- include("../layouts/footer"); -%>

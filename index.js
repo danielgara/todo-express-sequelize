@@ -19,7 +19,7 @@ app.get('/todos', todoController.list);
 app.post('/todos', todoController.add);
 
 app.get('/todos/findone/:id', todoController.findOne);
-app.post('/delete/todo/:id', todoController.delete);
+app.post('/delete/todo/:id/:image', todoController.delete);
 app.post('/todo/update/:id/:state', todoController.update);
 
 

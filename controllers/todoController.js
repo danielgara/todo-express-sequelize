@@ -7,12 +7,10 @@ const path = require('path');
 exports.list = async function (req, res) {
 
   const todos = await TodoModel.findAll({
-    /* order: [
-      ['message', 'ASC'], // Sorts by COLUMN_NAME_EXAMPLE in ascending order
+    order: [
+      ['message', 'ASC'],
     ],
- */
   });
-  let rsp = todos.filter(todo => todo.state === 'OPEN')
   res.render("todo/list", { todos: todos });
 }
 
@@ -84,11 +82,24 @@ exports.findOne = async (req, res) => {
 
 exports.delete = (req, res) => {
   const id = req.params.id;
+  const image = req.params.image;
+
   TodoModel.destroy({
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
+        if (image != '') {
+
+          const imagePath = path.join(__dirname.replace('controllers', ''), '/public/img/');
+          newpath = imagePath + image;
+          try {
+            fs.unlinkSync(newpath)
+            //file removed
+          } catch (err) {
+            console.error(err)
+          }
+        }
         res.send({
           message: "Task was deleted successfully!"
         });
