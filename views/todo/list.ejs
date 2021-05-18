@@ -1,53 +1,73 @@
 <%- include("../layouts/header"); -%>
 
-<div class="container">
-  <div class="row">
+  <div class="container">
     <div class="col-lg-8 col-md-10 mx-auto">
       <h1>Latest Todos</h1>
-      <form action="/todos" method="POST"> 
-        
+      <form action="/todos" method="post" enctype="multipart/form-data">
+        <input type="file" name="filetoupload" placeholder="add the image url" />
+        <div class="form-group mx-sm-3 mb-2"></div>
         <input type="text" name="message" placeholder="add new task" />
-        <input type="file" name="image" placeholder="add the image url" />
-        <button>Add Task</button>
-
-        <h2>Added Task</h2>
-
-        <ul class="list-group">
-        <% for( var i = 0; i < todos.length; i++){ %>
-          <li class="list-group-item">
-            <%= todos[i].message %> <%= todos[i].state %> <%= todos[i].createdAt %> <%= todos[i].updated %>
-            <i class="fa fa-trash"></i> <button class="button button1" formaction="/checktask" type="submit">Check
-            </button>
-            <button
-              class="button button2"
-              formaction="/delete/todo/<%= todos[i].id %>"
-              type="submit"
-            >Delete</button>
-          </li>
-        <% } %>
-        </ul>
-      </form>      
+        <button type="submit">Add Task</button>
+        <button><i class="fas fa-sort-alpha-down"></i></button>
+      </form>
     </div>
-    <div class="col-lg-8 col-md-10 mx-auto">
+    <form action="/todos" method="post">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <h2>Added Task</h2>
+        <div class="form-group mx-sm-3 mb-2"></div>
+        <ul class="list-group">
+          <% for( var i=0; i < todos.length; i++){ %>
 
+            <%if (todos[i].state==='OPEN' ) {%>
+              <li class="list-group-item">
+                <%= todos[i].message %>
+                  <%= todos[i].state %>
+                    <%= todos[i].createdAt %>
+                      <%= todos[i].updated %>
+                        <%= todos[i].id %>
 
-    <h2>Completed task</h2>
-    <% for( var i = 0; i < todos.length; i++){ %>        
-      <ul>
-        <li>
-          <span  value="<%= todos[i].message %>" /><%=
-          todos[i].message %> <%= todos[i].state %> <%= todos[i].createdAt %> <%= todos[i].updated %>
-        </li>
-        <button class="button button1" formaction="/taskdone" type="submit">
-          Uncheck
-        </button>
-       
+                          <button class="button button1" formaction="/todo/update/<%= todos[i].id %>/<%= 'CLOSE' %>"
+                            type="submit">
+                            <i class="fas fa-check-circle"></i>
+                          </button>
+                          <button class="button button2" formaction="/delete/todo/<%= todos[i].id %>" type="submit">
+                            <i class="fa fa-trash"></i>
+                          </button>
+
+                          <%}%>
+              </li>
+              <% } %>
+        </ul>
+      </div>
+    </form>
+  </div>
+  <div class="col-lg-8 col-md-10 mx-auto">
+    <form action="/todos" method="POST">
+      <h2>Completed task</h2>
+      <ul class="list-group">
+        <% for( var i=0; i < todos.length; i++){ %>
+
+          <%if (todos[i].state==='CLOSE' ) {%>
+            <li class="list-group-item">
+              <%= todos[i].message %>
+                <%= todos[i].state %>
+                  <%= todos[i].createdAt %>
+                    <%= todos[i].updated %>
+                      <%= todos[i].id %>
+
+                        <button class="button button1" formaction="/todo/update/<%= todos[i].id %>/<%= 'OPEN' %>"
+                          type="submit">
+                          <i class="fas fa-trash-restore"></i>
+                        </button>
+            </li>
+            <%}%>
+
+              <% } %>
+
       </ul>
-      
-      <% } %>
+    </form>
   </div>
-    <!-- <img src="https://okdiario.com/img/2016/12/29/jirafas-curiosidades-animal-b-655x368.jpg" /> -->
   </div>
-</div>
+  </div>
 
-<%- include("../layouts/footer"); -%>
+  <%- include("../layouts/footer"); -%>
