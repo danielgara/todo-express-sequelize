@@ -8,18 +8,20 @@
         <div class="card-body">
           <form action="/todos" method="post" enctype="multipart/form-data">
             <div class="form-group mx-sm-3 mb-2">
+              <label for="image"
+                >Choose a task image (.jpg or .png file):</label
+              >
               <input
+                id="image"
                 type="file"
                 name="filetoupload"
                 placeholder="add the image url"
                 accept="image/*"
               />
+
               <input type="text" name="message" placeholder="add new task" />
               <button class="btn btn-primary btn-sm" type="submit">
                 Add Task
-              </button>
-              <button onclick="sortAscending()">
-                <i class="fas fa-sort-alpha-down"></i>
               </button>
             </div>
           </form>
@@ -29,35 +31,69 @@
     <div class="card-body">
       <form action="/todos" method="post">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <h2>Added Task</h2>
-          <div class="form-group mx-sm-3 mb-2"></div>
-          <ul class="list-group">
-            <% for( var i=0; i < todos.length; i++){ %> <%if
-            (todos[i].state==='OPEN' ) {%>
-            <li class="list-group-item">
-              <%= todos[i].message %> <%= todos[i].state %> <%=
-              todos[i].createdAt %> <%= todos[i].updated %> <%= todos[i].id %>
-              <%if (todos[i].image ) {%>
-              <img src="/img/<%= todos[i].image%>" class="img-thumbnail" />
-              <%}%>
-              <button
-                class="button button1"
-                formaction="/todo/update/<%= todos[i].id %>/<%= 'CLOSE' %>"
-                type="submit"
-              >
-                <i class="fas fa-check-circle"></i>
-              </button>
-              <button
-                class="button button2"
-                formaction="/delete/todo/<%= todos[i].id %>/<%= todos[i].image %>"
-                type="submit"
-              >
-                <i class="fa fa-trash"></i>
-              </button>
-              <%}%>
-            </li>
-            <% } %>
-          </ul>
+          <div class="row">
+            <h2 class="col-4">Added Task</h2>
+            <button class="col-1" onclick="sortAscending()">
+              <i class="fas fa-sort-alpha-down"></i>
+            </button>
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <ul class="list-group">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Check</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                <% for( var i=0; i < todos.length; i++){ %> <%if
+                (todos[i].state==='OPEN' ) {%>
+                <tbody>
+                  <tr>
+                    <th scope="row"><%=i%></th>
+                    <td><%= todos[i].message %></td>
+                    <td><%= todos[i].state %></td>
+                    <td><%= todos[i].createdAt %> <%= todos[i].updated %></td>
+                    <td><%= todos[i].id %></td>
+                    <td>
+                      <%if (todos[i].image ) {%>
+                      <img
+                        src="/img/<%= todos[i].image%>"
+                        class="img-thumbnail"
+                      />
+                      <%}%>
+                    </td>
+                    <td>
+                      <button
+                        class="button button1"
+                        formaction="/todo/update/<%= todos[i].id %>/<%= 'CLOSE' %>"
+                        type="submit"
+                      >
+                        <i class="fas fa-check-circle"></i>
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        class="button button2"
+                        formaction="/delete/todo/<%= todos[i].id %>/<%= todos[i].image %>"
+                        type="submit"
+                      >
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <%}%>
+                </tbody>
+                <% } %>
+              </table>
+            </ul>
+          </div>
         </div>
       </form>
     </div>
@@ -65,21 +101,41 @@
       <form action="/todos" method="POST">
         <h2>Completed task</h2>
         <ul class="list-group">
-          <% for( var i=0; i < todos.length; i++){ %> <%if
-          (todos[i].state==='CLOSE' ) {%>
-          <li class="list-group-item">
-            <%= todos[i].message %> <%= todos[i].state %> <%= todos[i].createdAt
-            %> <%= todos[i].updated %> <%= todos[i].id %>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Task</th>
+                <th scope="col">State</th>
+                <th scope="col">Date</th>
+                <th scope="col">Id</th>
+                <th scope="col">Restore</th>
+              </tr>
+            </thead>
+            <% for( var i=0; i < todos.length; i++){ %> <%if
+            (todos[i].state==='CLOSE' ) {%>
+            <tbody>
+              <tr>
+                <th scope="row"><%=i%></th>
+                <td><%= todos[i].message %></td>
+                <td><%= todos[i].state %></td>
+                <td><%= todos[i].createdAt %> <%= todos[i].updated %></td>
+                <td><%= todos[i].id %></td>
 
-            <button
-              class="button button1"
-              formaction="/todo/update/<%= todos[i].id %>/<%= 'OPEN' %>"
-              type="submit"
-            >
-              <i class="fas fa-trash-restore"></i>
-            </button>
-          </li>
-          <%}%> <% } %>
+                <td>
+                  <button
+                    class="button button1"
+                    formaction="/todo/update/<%= todos[i].id %>/<%= 'OPEN' %>"
+                    type="submit"
+                  >
+                    <i class="fas fa-trash-restore"></i>
+                  </button>
+                </td>
+              </tr>
+              <%}%>
+            </tbody>
+            <% } %>
+          </table>
         </ul>
       </form>
     </div>
