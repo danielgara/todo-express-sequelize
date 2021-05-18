@@ -24,8 +24,8 @@
                   <%= todos[i].state %>
                     <%= todos[i].createdAt %>
                       <%= todos[i].updated %>
-                        <%= todos[i].id %>
-
+                        <%= todos[i].id %>                        
+                        <img src="<%= todos[i].image%>">
                           <button class="button button1" formaction="/todo/update/<%= todos[i].id %>/<%= 'CLOSE' %>"
                             type="submit">
                             <i class="fas fa-check-circle"></i>
@@ -68,6 +68,7 @@
     </form>
   </div>
   </div>
+  
   </div>
 
   <%- include("../layouts/footer"); -%>

@@ -7,10 +7,10 @@ const path = require('path');
 exports.list = async function (req, res) {
 
   const todos = await TodoModel.findAll({
-    order: [
+    /* order: [
       ['message', 'ASC'], // Sorts by COLUMN_NAME_EXAMPLE in ascending order
     ],
-
+ */
   });
   let rsp = todos.filter(todo => todo.state === 'OPEN')
   res.render("todo/list", { todos: todos });
@@ -21,14 +21,12 @@ exports.add = (req, res) => {
   id = Math.floor((Math.random() * 100) + 1);
   state = "OPEN";
   let newpath = '';
+  let image = ''
 
   // Read file imcomming 
-
   const form = new formidable.IncomingForm();
 
   form.parse(req, function (err, fields, files) {
-
-    // Validar q venga un message
     if (fields.message == '') {
       res.status(400).send({
         message: "Content can not be empty!"
@@ -43,12 +41,15 @@ exports.add = (req, res) => {
         fs.rename(oldpath, newpath, function (err) {
           if (err) throw err;
         });
+        image = files.filetoupload.name
       }
       // Create a task
+
       const todo = {
         id,
         message: fields.message,
-        state
+        state,
+        image
       };
 
       // Save task in the database
