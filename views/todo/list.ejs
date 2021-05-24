@@ -1,145 +1,133 @@
 <%- include("../layouts/header"); -%>
 
-<div class="container">
-  <div class="card">
-    <div class="col-lg-8 col-md-10 mx-auto">
-      <div class="card-header">
-        <h1>Latest Todos</h1>
-        <div class="card-body">
-          <form action="/todos" method="post" enctype="multipart/form-data">
-            <div class="form-group mx-sm-3 mb-2">
-              <label for="image"
-                >Choose a task image (.jpg or .png file):</label
-              >
-              <input
-                id="image"
-                type="file"
-                name="filetoupload"
-                placeholder="add the image url"
-                accept="image/*"
-              />
-
-              <input type="text" name="message" placeholder="add new task" />
-              <button class="btn btn-primary btn-sm" type="submit">
-                Add Task
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+<div class="col-lg-12 col-md-12">
+  <div class="card-header">
+    <h1>Create a ToDo</h1>
     <div class="card-body">
-      <form action="/todos" method="post">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="row">
-            <h2 class="col-4">Added Task</h2>
-            <button class="col-1" onclick="sortAscending()">
-              <i class="fas fa-sort-alpha-down"></i>
-            </button>
-          </div>
-          <div class="form-group mx-sm-3 mb-2">
-            <ul class="list-group">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Task</th>
-                    <th scope="col">State</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Id</th>
-                    <th scope="col">Image</th>
-                    <th scope="col">Check</th>
-                    <th scope="col">Delete</th>
-                  </tr>
-                </thead>
-                <% for( var i=0; i < todos.length; i++){ %> <%if
-                (todos[i].state==='OPEN' ) {%>
-                <tbody>
-                  <tr>
-                    <th scope="row"><%=i%></th>
-                    <td><%= todos[i].message %></td>
-                    <td><%= todos[i].state %></td>
-                    <td><%= todos[i].createdAt %> <%= todos[i].updated %></td>
-                    <td><%= todos[i].id %></td>
-                    <td>
-                      <%if (todos[i].image ) {%>
-                      <img
-                        src="/img/<%= todos[i].image%>"
-                        class="img-thumbnail"
-                      />
-                      <%}%>
-                    </td>
-                    <td>
-                      <button
-                        class="button button1"
-                        formaction="/todo/update/<%= todos[i].id %>/<%= 'CLOSE' %>"
-                        type="submit"
-                      >
-                        <i class="fas fa-check-circle"></i>
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        class="button button2"
-                        formaction="/delete/todo/<%= todos[i].id %>/<%= todos[i].image %>"
-                        type="submit"
-                      >
-                        <i class="fa fa-trash"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <%}%>
-                </tbody>
-                <% } %>
-              </table>
-            </ul>
+      <form action="/todos" method="post" enctype="multipart/form-data">
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Task Message</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" name="message" placeholder="Task message">
           </div>
         </div>
-      </form>
-    </div>
-    <div class="col-lg-8 col-md-10 mx-auto">
-      <form action="/todos" method="POST">
-        <h2>Completed task</h2>
-        <ul class="list-group">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Task</th>
-                <th scope="col">State</th>
-                <th scope="col">Date</th>
-                <th scope="col">Id</th>
-                <th scope="col">Restore</th>
-              </tr>
-            </thead>
-            <% for( var i=0; i < todos.length; i++){ %> <%if
-            (todos[i].state==='CLOSE' ) {%>
-            <tbody>
-              <tr>
-                <th scope="row"><%=i%></th>
-                <td><%= todos[i].message %></td>
-                <td><%= todos[i].state %></td>
-                <td><%= todos[i].createdAt %> <%= todos[i].updated %></td>
-                <td><%= todos[i].id %></td>
-
-                <td>
-                  <button
-                    class="button button1"
-                    formaction="/todo/update/<%= todos[i].id %>/<%= 'OPEN' %>"
-                    type="submit"
-                  >
-                    <i class="fas fa-trash-restore"></i>
-                  </button>
-                </td>
-              </tr>
-              <%}%>
-            </tbody>
-            <% } %>
-          </table>
-        </ul>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Task Image (only .jpg supported)</label>
+          <div class="col-sm-8">
+            <input id="image" type="file" name="filetoupload">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">&nbsp;</label>
+          <div class="col-sm-8">
+            <button class="btn btn-primary btn-sm" type="submit"> Add Task </button>
+          </div>
+        </div>
       </form>
     </div>
   </div>
+</div>
+
+<br /><br />
+
+<div class="col-lg-12 col-md-12">
+  <h1>Pending Tasks
+  <button onclick="location.href='/todosOrdered';" class="col-1"> 
+    <i class="fas fa-sort-alpha-down"></i> 
+  </button>
+  </h1> 
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Task</th>
+        <th scope="col">State</th>
+        <th scope="col">Date Created</th>
+        <th scope="col">Image</th>
+        <th scope="col">Check</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0; i < todos.length; i++) { %> 
+        <% if(todos[i].state === 'OPEN') { %>
+          <tr>
+            <td><%= todos[i].id %></td>
+            <td><%= todos[i].message %></td>
+            <td><%= todos[i].state %></td>
+            <td><%= todos[i].createdAt %></td>
+            <td>
+              <% if(todos[i].image) { %>
+              <img
+                src="/uploads/<%= todos[i].image%>"
+                class="img-thumbnail"
+              />
+              <% } %>
+            </td>
+            <td>
+              <button onclick="location.href='/todos/update/<%= todos[i].id %>/CLOSE';">
+                <i class="fas fa-check-circle"></i>
+              </button>
+            </td>
+            <td>
+              <button onclick="location.href='/todos/delete/<%= todos[i].id %>';">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        <% } %>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<br /><br />
+
+<div class="col-lg-12 col-md-12">
+  <h1>Closed Tasks</h1>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Task</th>
+        <th scope="col">State</th>
+        <th scope="col">Date Created</th>
+        <th scope="col">Image</th>
+        <th scope="col">Uncheck</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0; i < todos.length; i++) { %> 
+        <% if(todos[i].state === 'CLOSE') { %>
+          <tr>
+            <td><%= todos[i].id %></td>
+            <td><%= todos[i].message %></td>
+            <td><%= todos[i].state %></td>
+            <td><%= todos[i].createdAt %></td>
+            <td>
+              <% if(todos[i].image) { %>
+              <img
+                src="/uploads/<%= todos[i].image%>"
+                class="img-thumbnail"
+              />
+              <% } %>
+            </td>
+            <td>
+              <button onclick="location.href='/todos/update/<%= todos[i].id %>/OPEN';">
+                <i class="fas fa-trash-restore"></i>
+              </button>
+            </td>
+            <td>
+              <button onclick="location.href='/todos/delete/<%= todos[i].id %>';">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        <% } %>
+      <% } %>
+    </tbody>
+  </table>
 </div>
 
 <%- include("../layouts/footer"); -%>
